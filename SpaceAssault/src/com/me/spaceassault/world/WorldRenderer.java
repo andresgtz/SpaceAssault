@@ -54,11 +54,16 @@ public class WorldRenderer {
 	}
 	
 	public void loadTextures(){
-		heroTexture = new Texture(Gdx.files.internal("images/characters/warrior.png"))
+		heroTexture = new Texture(Gdx.files.internal("images/characters/warrior.png"));
+		tileTexture = new Texture(Gdx.files.internal("images/terrain/tile.png"));
 	}
 
 	public void render() {
 		// render blocks
+		spriteBatch.begin();
+			drawBlocks();
+			
+		
 		debugRenderer.setProjectionMatrix(cam.combined);
 		debugRenderer.begin(ShapeType.Line);
 		for (Tile tile : world.getTiles()) {
@@ -76,5 +81,12 @@ public class WorldRenderer {
 		debugRenderer.setColor(new Color(0, 1, 0, 1));
 		debugRenderer.rect(x1, y1, rect.width, rect.height);
 		debugRenderer.end();
+	}
+	
+	
+	private void drawTiles() {
+		for(Tile tile : world.getTiles()) {
+			spriteBatch.draw(tileTexture, tile.getPosition().x*ppuX, tile.getPosition().y*ppuY, tile.SIZE*ppuX, tile.SIZE*ppuY);
+		}
 	}
 }
